@@ -1,42 +1,52 @@
-/* .file-custom:before {
-    position: absolute;
-    top: -.075rem;
-    right: -.075rem;
-    bottom: -.075rem;
-    z-index: 6;
-    display: block;
-    content: "Browse";
-    height: 2.5rem;
-    padding: .5rem 1rem;
-    line-height: 1.5;
-    color: #555;
-    background-color: #eee;
-    border: .075rem solid #ddd;
-    border-radius: 0 .25rem .25rem 0;
+body {
+    background-color: rgb(252, 244, 235);
 }
 
-.file-custom:after {
-    content: "Choose file...";
+.upload-data {
+    font-family: 'Roboto Mono', monospace;
+    text-align: center;
+    margin-top: 20px;
+    padding: 0%;
+    margin-bottom: 0%;
 }
 
-.file {
-    position: relative;
+.upload-file {
+    text-align: center;
+}
+
+input[type=file] {
+    font-size: medium;
+    border-style: outset;
+    margin-bottom: 50px;
+}
+
+h2 {
+    text-align: center;
+    
+}
+
+div.text-container {
+    text-align: center;
+    border: 1px solid #000;
+    padding: 25px 0;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+div.text-container p {
     display: inline-block;
-    cursor: pointer;
-    height: 2.5rem;
+    text-align: left;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
-input[type="file"]::-webkit-file-upload-button{
-    appearance: none;
-    background-color: initial;
-    cursor: default;
-    align-items: baseline;
-    color: inherit;
-    text-overflow: ellipsis;
-    white-space: pre;
-    text-align: start !important;
-    padding: initial;
-    border: none;
-    overflow: hidden !important;
-    font-family: 'Roboto Mono'
-} */
+.file-restriction-container {
+    border: 1px;
+    border-style: double;
+    margin-left: 43%;
+    margin-right: 43%;
+    padding: 0%;
+    text-align: center;
+    margin-top: 0%;
+    color: red;
+}
