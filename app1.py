@@ -223,5 +223,9 @@ def makePrediction():
     result = CNN_model.predict([predict_input_PDC])
     return json.dumps(result.tolist())
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
