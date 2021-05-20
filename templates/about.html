@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<title>Schizophrenia Detector</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename= 'css/styles.css') }}">
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('home')}}">Schizophrenia Detector</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('about')}}">About</a>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+        <h2 style="margin-top: 15px; font-family: 'Roboto Mono', monospace; "> Schizophrenia Detector </h2>
+    <div class="text-container">
+        <p> Schizophrenia is a serious mental disorder in which people interpret reality abnormally.
+            According to <a href="https://www.mentalhelp.net/"> MentalHelp.net </a>, Schizophreania alone
+            has affected about 1% of the entire human population this year. </p>
+        <p> The purpose of this project is to create an automated system to perform binary classification
+            between healthy and schizophrenic patients. On this web application that we developed, users 
+            are able to upload EEG data and receive a prediction of whether the subject is of schizophrenic or not.</p>
+        <p> This system could potentially be beneficial to patients who are suffering from schizophrenia and it could reduce
+            the time and cost on diagnosis of the disease. The users are able to see the visualisation of the feature extracted
+            data and the graph generated for the signals as well. </p>
+    </div>
+</body>

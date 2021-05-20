@@ -13,22 +13,42 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200&display=swap" rel="stylesheet">
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/styles.css') }}">
 <head>
-	<title>Are you Schizophrenic?</title>
+	<title>Schizophrenia Detector</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename= 'css/styles.css') }}">
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 </head>
 
 <body>
-	<div ng-app="schizo_detector" ng-controller="mainCtrl">
+	<nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('home')}}">Schizophrenia Detector</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('about')}}">About</a>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+	<div>
+		<p class="upload-data"> <strong> Upload a valid subject data: </strong></p>
+		<p class="file-restriction-container"> (Only EEG is allowed) </p>
+	</div>
+
+	<div class="upload-file" ng-app="schizo_detector" ng-controller="mainCtrl">
 		<div style="margin: 10px;">
 			<div>
-				<strong>
-					<p style="font-family: 'Roboto Mono', monospace;">Upload a file</p>
-				</strong>
 				<input type='file' id='dataInput' style="font-family: 'Roboto Mono', monospace;"/>
 				<!-- <label class="file">
 					<input type="file" id='dataInput' aria-label="File browser example">
 					<span class="file-custom"></span>
 				</label> -->
-				<p><strong style="font-family: 'Roboto Mono', monospace;">Prediction Output</strong></p>
+				<p><strong style="font-family: 'Roboto Mono', monospace;">Click below to predict:</strong></p>
 				<p style="font-family: 'Roboto Mono', monospace;" ng-bind="healthy_results"></p>
 				<p style="font-family: 'Roboto Mono', monospace;" ng-bind="schizo_results"></p>
 				<!-- {%for post in postss%}
