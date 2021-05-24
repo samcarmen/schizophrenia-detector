@@ -35,20 +35,17 @@
         </div>
     </nav>
 
-	<div>
-		<p class="upload-data"> <strong> Upload a valid subject data: </strong></p>
-		<p class="file-restriction-container"> (Only EEG is allowed) </p>
-	</div>
 
 	<div class="upload-file" ng-app="schizo_detector" ng-controller="mainCtrl">
-		<div style="margin: 10px;">
-			<div>
-				<input type='file' id='dataInput' style="font-family: 'Roboto Mono', monospace;"/>
+		<div style="margin: 10px;text-align: -webkit-center;">
+			<div style='margin-bottom: 15px;'>
+				<p class="upload-data"> <strong> Upload your EEG data! </strong></p>
+				<input type='file' id='dataInput' style="font-family: 'Roboto Mono', monospace; margin:10px"/>
 				<!-- <label class="file">
 					<input type="file" id='dataInput' aria-label="File browser example">
 					<span class="file-custom"></span>
 				</label> -->
-				<p><strong style="font-family: 'Roboto Mono', monospace;">Click below to predict:</strong></p>
+				<p><strong style="font-family: 'Roboto Mono', monospace;">Click below to predict</strong></p>
 				<p style="font-family: 'Roboto Mono', monospace;" ng-bind="healthy_results"></p>
 				<p style="font-family: 'Roboto Mono', monospace;" ng-bind="schizo_results"></p>
 				<!-- {%for post in postss%}
@@ -122,29 +119,11 @@
 		$scope.schizo_results = "";
 		$scope.results;
 
-
-		$scope.channels_container = [
-			"chartContainer1",
-			"chartContainer2",
-			"chartContainer3",
-			"chartContainer4",
-			"chartContainer5",
-			"chartContainer6",
-			"chartContainer7",
-			"chartContainer8",
-			"chartContainer9",
-			"chartContainer10",
-			"chartContainer11",
-			"chartContainer12",
-			"chartContainer13",
-			"chartContainer14",
-			"chartContainer15",
-			"chartContainer16"
-		]
 		$scope.generateGraph = function () {
+			/*This function generates the graph of all 16 EEG channels on the UI*/
 			var eeg_channels = []
 
-			for (var channels = 0; channels < 16; channels++) {
+			for (var channels = 0; channels < 16; channels++) { //loop 16 times to generate each channel's graph
 				channel_arr = []
 				for (var i = 0; i < eeg_data.length; i++) {
 					channel_arr.push({ x: i, y: eeg_data[i][channels] });
@@ -162,34 +141,39 @@
 		}
 
 		$scope.varFeaExtr = function () {
+			/*Sends an AJAX request to the backend to compute the VAR coefficients*/
 			console.log("Using VAR method to Feature Extract signals.")
 			$http({
 				method: "GET",
 				url: "/VAR"
 			}).then(function mySuccess(response) {
 				eeg_var_lag5 = response.data;
-				generate_VAR_heatmap();
+				generate_VAR_heatmap();// Generates the heatmap using the 5 VAR coefs matrix
 				console.log(eeg_var_lag5);
 			}, function myError(response) {
 				console.log(response);
+				alert("Error in displaying matrix due to incorrect data format. Please upload another file");
 			});
 		}
 
 		$scope.PDCFeaExtr = function () {
+			/*Sends an AJAX request to the backend to compute the PDC matrix*/
 			console.log("Using PDC method to Feature Extract signals.")
 			$http({
 				method: "GET",
 				url: "/PDC"
 			}).then(function mySuccess(response) {
 				eeg_PDC_lag5 = response.data[1];
-				generate_PDC_heatmap();
+				generate_PDC_heatmap();// Generates the heatmap using the 5 pdc matrix
 				console.log(response.data);
 			}, function myError(response) {
 				console.log(response);
+				alert("Error in displaying matrix due to incorrect data format. Please upload another file");
 			});
 		}
 
 		$scope.predict = function () {
+			/*Sends an AJAX request to the backend to make prediction based on the PDC values*/
 			console.log("Making Prediction")
 			$http({
 				method: "GET",
@@ -198,8 +182,8 @@
 				console.log("Made a prediction!")
 				console.log(response.data);
 				$scope.results = response.data;
-				$scope.healthy_results = "Healthy: " + $scope.results[0][0]
-				$scope.schizo_results = "Schizophrenic: " + $scope.results[0][1]
+				$scope.healthy_results = "Healthy: " + $scope.results[0][0]//binds the result to the UI
+				$scope.schizo_results = "Schizophrenic: " + $scope.results[0][1]//binds the result to the UI
 			}, function myError(response) {
 				console.log(response);
 			});
@@ -225,6 +209,7 @@
 					console.log(eeg_data);
 				}, function myError(response) {
 					console.log(response);
+					alert("Please upload the file in the correct data format (.eea)");
 				});
 
 			};
@@ -240,10 +225,16 @@
 				var datapoints = []
 				for (var row = 0; row < 16; row++) {
 					for (var column = 0; column < 16; column++) {			//row,column
-						datapoints.push([row, column, eeg_var_lag5[mat_index][column][row]]);
+						if (column==row){
+							datapoints.push([row, column, 0]);
+						}
+						else{
+							datapoints.push([row, column, eeg_var_lag5[mat_index][column][row]]);
+						}
 					}
 				}
 				var_matrices.push(datapoints)
+
 			}
 
 			var chn_categories = ["channel1", "channel2", "channel3", "channel4", "channel5", "channel6", "channel7", "channel8", "channel9", "channel10",
@@ -303,17 +294,20 @@
 				var datapoints = []
 				for (var row = 0; row < 16; row++) {
 					for (var column = 0; column < 16; column++) {            //row,column
-						datapoints.push([row, column, eeg_PDC_lag5[mat_index][column][row]]);
+						if (column==row){
+							datapoints.push([row, column, 0]);
+						}
+						else{
+							datapoints.push([row, column, eeg_PDC_lag5[mat_index][column][row]]);
+						}
+						
 					}
 				}
 				PDC_matrices.push(datapoints)
 			}
-
 			var chn_categories = ["channel1", "channel2", "channel3", "channel4", "channel5", "channel6", "channel7", "channel8", "channel9", "channel10",
 				"channel11", "channel12", "channel13", "channel14", "channel15", "channel16",]
-
 			var bandwidths = ['Delta [0hz - 4hz]', 'Theta [4hz - 8hz]', 'Alpha[8hz - 13hz]', 'Beta [13hz - 30hz]', 'Gamma [30hz - 64hz]']
-
 			for (var i = 0; i < PDC_matrices.length; i++) {
 
 				Highcharts.chart('hm_container_pdc' + (i + 1), {
@@ -323,7 +317,6 @@
 						marginBottom: 70,
 						plotBorderWidth: 1
 					},
-
 					title: {
 						text: bandwidths[i]
 					},
